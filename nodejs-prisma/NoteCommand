@@ -1,0 +1,19 @@
+// 1
+yarn prisma generate
+npx prisma migrate dev --name rename-migration --create-only
+yarn prisma migrate deploy
+npx prisma migrate reset
+
+// 2
+yarn prisma generate
+
+// Create migrations from your Prisma schema, apply them to the database, generate artifacts (e.g. Prisma Client)
+$ yarn prisma migrate dev
+
+// Pull the schema from an existing database, updating the Prisma schema
+$ yarn prisma db pull
+
+// Push the Prisma schema state to the database
+$ yarn prisma db push
+
+

@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>User Registration</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+	<body>
+		<div
+			class="relative flex flex-col justify-center min-h-screen overflow-hidden mx-4 lg:mx-0"
+		>
+			<div
+				class="w-full p-6 m-auto bg-white rounded-md shadow-md border-top max-w-sm lg:max-w-md"
+			>
+				<h1 class="text-3xl font-semibold text-center text-purple-700">
+					Register
+				</h1>
+				<form id="registrationForm" class="mt-6">
+					<div class="relative mb-8">
+						<input
+							id="username"
+							name="username"
+							type="text"
+							class="w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:border-purple-600"
+							required
+						/>
+						<label
+							for="username"
+							class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+							>Username</label
+						>
+					</div>
+					<div class="relative mb-4">
+						<input
+							id="password"
+							name="password"
+							type="password"
+							class="w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:border-purple-600"
+							placeholder="password"
+							required
+						/>
+						<label
+							for="password"
+							class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+						>
+							Password</label
+						>
+					</div>
+					<div class="mt-6">
+						<button
+							class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
+							type="submit"
+						>
+							Register
+						</button>
+					</div>
+				</form>
+				<p class="mt-8 text-xs font-light text-center text-gray-700">
+					Already have an account?
+					<a href="/login" class="font-medium text-purple-600 hover:underline"
+						>Login</a
+					>
+				</p>
+				<p class="mt-8 text-xs font-light text-center text-purple-600">
+					Developed by
+					<span class="bold"
+						><a target="_blank" href="https://www.google.com/"
+							>@HuyTran</a
+						></span
+					>
+				</p>
+			</div>
+		</div>
+	</body>
+	<script>
+		const onFormSubmit = async () => {
+			const username = document.getElementById('username').value;
+			const password = document.getElementById('password').value;
+			const resp = await fetch('/auth/register', {
+				method: 'POST',
+				body: JSON.stringify({
+					username,
+					password,
+				}),
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+			})
+				.then(async (res) => {
+					if (res.status !== 200) {
+						throw new Error((await res.json()).message);
+					}
+					window.location.href = '/';
+					return await res.json();
+				})
+				.catch((err) => {
+					alert(err);
+				});
+		};
+
+		document
+			.querySelector('#registrationForm')
+			.addEventListener('submit', (e) => {
+				e.preventDefault();
+				onFormSubmit();
+			});
+	</script>
+</html>
