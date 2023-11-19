@@ -73,7 +73,7 @@ export const deleteAuthor = async (req, res) => {
 				id: +authorId,
 			},
 		});
-		res.status(200).json({ data: updateAuthor });
+		res.status(200).json({ data: deleteAuthor });
 	} catch (error) {
 		console.log(error);
 	}
