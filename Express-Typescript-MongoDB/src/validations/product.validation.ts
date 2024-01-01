@@ -4,21 +4,29 @@ import { ObjectId } from 'mongodb';
 export const productSchema = z.object({
 	body: z.object({
 		name: z
-			.string({ required_error: 'Tên không được bỏ trống!' })
-			.max(50, 'Tên sản phẩm quá dài!'),
+			.string({ required_error: 'Tên sản phẩm không được bỏ trống!' })
+			.max(50, 'Tên sản phẩm quá dài, không được vượt quá 50 ký tự!'),
 
-		price: z.number().min(0, 'Giá không thể âm!').optional(),
+		price: z
+			.number({ required_error: 'Giá sản phẩm không được bỏ trống!' })
+			.min(0, 'Giá không thể âm!'),
+
+		images: z
+			.array(z.string())
+			.refine((value) => value.length > 0, {
+				message: 'Không được bỏ trống!',
+			}),
 
 		discount: z
 			.number()
 			.min(0, 'Giảm giá không thể âm!')
-			.max(75, 'Giảm giá quá lớn!')
-			.int()
+			.max(100, 'Giảm giá quá lớn, không được vượt quá 100%.')
+			.int('Giảm giá phải là số nguyên dương.')
 			.optional(),
 
 		stock: z
 			.number()
-			.min(0, 'Số lượng không hợp lệ')
+			.min(0, 'Số lượng tồn kho không thể âm!')
 			.int()
 			// .refine((value) => value !== undefined && value !== null, {
 			// 	message: 'Không được bỏ trống!',
@@ -27,7 +35,7 @@ export const productSchema = z.object({
 
 		description: z
 			.string()
-			.max(3000, 'Mô tả quá dài')
+			.max(500, 'Mô tả sản phẩm quá dài, không được vượt quá 500 ký tự!')
 			// .refine((value) => value.trim() !== '', {
 			// 	message: 'Không được bỏ trống!',
 			// }),
@@ -45,6 +53,24 @@ export const productSchema = z.object({
 		),
 
 		supplierId: z.string().refine(
+			(value) => {
+				if (!value) return true;
+				return ObjectId.isValid(value);
+			},
+			{
+				message: 'Invalid ObjectID Format!',
+			}
+		),
+		sizeId: z.string().refine(
+			(value) => {
+				if (!value) return true;
+				return ObjectId.isValid(value);
+			},
+			{
+				message: 'Invalid ObjectID Format!',
+			}
+		),
+		colorId: z.string().refine(
 			(value) => {
 				if (!value) return true;
 				return ObjectId.isValid(value);
@@ -77,11 +103,29 @@ export const validationQuerySchema = z.object({
 					message: 'Invalid ObjectID Format!',
 				}
 			),
+			sizeId: z.string().refine(
+				(value) => {
+					if (!value) return true;
+					return ObjectId.isValid(value);
+				},
+				{
+					message: 'Invalid ObjectID Format!',
+				}
+			),
+			colorId: z.string().refine(
+				(value) => {
+					if (!value) return true;
+					return ObjectId.isValid(value);
+				},
+				{
+					message: 'Invalid ObjectID Format!',
+				}
+			),
 			priceStart: z
 				.number()
 				.min(0)
 				.refine((value) => value >= 0, {
-					message: 'Giá không hợp lệ',
+					message: 'Giá đầu vào không hợp lệ!',
 				}),
 			priceEnd: z.number().min(0),
 			page: z.number().min(1).optional(),
@@ -97,7 +141,7 @@ export const validationQuerySchema = z.object({
 				return data.priceStart < data.priceEnd;
 			},
 			{
-				message: 'End price must be after start price',
+				message: 'Giá bán phải lớn hơn giá đầu vào!',
 				path: ['priceEnd'],
 			}
 		),

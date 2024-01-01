@@ -15,13 +15,16 @@ import {
 } from './middlewares/passport';
 import { allowRoles } from './middlewares/checkRole';
 
+import productRoute from './routes/product.route';
+import colorRoute from './routes/color.route';
+import sizeRoute from './routes/size.route';
 import supplierRoute from './routes/supplier.route';
 import categoryRoute from './routes/category.route';
-import productRoute from './routes/product.route';
-import userRoute from './routes/user.route';
 import orderRoute from './routes/order.route';
-import authRoute from './routes/auth.route';
 import cartRoute from './routes/cart.route';
+import userRoute from './routes/user.route';
+import commentRoute from './routes/comment.route';
+import authRoute from './routes/auth.route';
 
 dotenv.config();
 
@@ -39,12 +42,11 @@ passport.use(passportVerifyAccount);
 passport.use(passportConfigBasic);
 
 //Danh sách các routes
-
-app.use('/auth', authRoute);
 app.use('/products', productRoute);
+app.use('/colors', colorRoute);
+app.use('/sizes', sizeRoute);
 app.use('/categories', categoryRoute);
 app.use('/suppliers', supplierRoute);
-app.use('/customers', userRoute);
 app.use(
 	'/orders',
 	passport.authenticate('jwt', { session: false }),
@@ -52,6 +54,9 @@ app.use(
 	orderRoute
 );
 app.use('/carts', cartRoute);
+app.use('/users', userRoute);
+app.use('/auth', authRoute);
+app.use('/comments', commentRoute);
 // app.use('/questions', questionsRouter)
 
 //Handle Errors App

@@ -10,14 +10,16 @@ export const createSchema = z.object({
 			.string({ required_error: 'Tên không được bỏ trống!' })
 			.max(50, 'Tên được vượt quá 50 ký tự'),
 
-		email: z.string({ required_error: 'Email không được bỏ trống!' }).refine(
-			(email) => {
-				const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+		email: z
+			.string({ required_error: 'Email không được bỏ trống!' })
+			.refine(
+				(email) => {
+					const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
-				return emailRegex.test(email);
-			},
-			{ message: 'Email không hợp lệ!' }
-		),
+					return emailRegex.test(email);
+				},
+				{ message: 'Email không hợp lệ!' }
+			),
 
 		phoneNumber: z
 			.string({ required_error: 'Số liên lạc không được bỏ trống!' })
@@ -33,31 +35,33 @@ export const createSchema = z.object({
 
 		address: z
 			.string({ required_error: 'Địa chỉ không được bỏ trống!' })
-			.max(500, 'Địa chỉ không được vượt quá 500 ký tự!'),
+			.max(300, 'Địa chỉ không được vượt quá 300 ký tự!'),
 
 		birthday: z.date().optional(),
 
 		password: z
 			.string({ required_error: 'Mật khẩu không được bỏ trống!' })
 			.min(3, 'Không được ít hơn 3 ký tự!')
-			.max(12, 'Không được vượt quá 12 ký tự!'),
+			.max(15, 'Không được vượt quá 15 ký tự!'),
 	}),
 });
 
 export const loginSchema = z.object({
 	body: z.object({
-		email: z.string({ required_error: 'Email không được bỏ trống!' }).refine(
-			(email) => {
-				const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+		email: z
+			.string({ required_error: 'Email không được bỏ trống!' })
+			.refine(
+				(email) => {
+					const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
-				return emailRegex.test(email);
-			},
-			{ message: 'Email không hợp lệ!' }
-		),
+					return emailRegex.test(email);
+				},
+				{ message: 'Email không hợp lệ!' }
+			),
 
 		password: z
 			.string({ required_error: 'Mật khẩu không được bỏ trống!' })
 			.min(3, 'Không được ít hơn 3 ký tự!')
-			.max(12, 'Không được vượt quá 12 ký tự!'),
+			.max(15, 'Không được vượt quá 15 ký tự!'),
 	}),
 });

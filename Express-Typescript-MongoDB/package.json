@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"author": "Tran The Huy",
-	"description": "Made in 1/11/2023",
+	"description": "Made in 30/12/2023",
 	"license": "MIT",
 	"scripts": {
 		"build": "npx tsc -p",
@@ -13,6 +13,7 @@
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.20.2",
+		"cloudinary": "^1.41.1",
 		"compression": "^1.7.4",
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",

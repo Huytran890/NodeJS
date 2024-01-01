@@ -29,18 +29,19 @@ const userSchema = new Schema(
 			type: String,
 			required: [true, 'Họ tên không được bỏ trống.'],
 			minLength: [2, 'Họ phải có tối thiểu 2 ký tự.'],
-			maxLength: [30, 'Họ không được vượt quá 30 ký tự.'],
+			maxLength: [50, 'Họ không được vượt quá 30 ký tự.'],
 		},
 		phoneNumber: {
 			type: String,
-			maxLength: [20, 'Số điện thoại không được vượt quá 20 ký tự.'],
+			required: [true, 'Số điện thoại không được bỏ trống.'],
+			maxLength: [30, 'Số điện thoại không được vượt quá 30 ký tự.'],
 			validate: {
 				validator: function (value: string) {
 					const phoneRegex =
 						/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
 					return phoneRegex.test(value);
 				},
-				message: `{VALUE} is not a valid phone!`,
+				message: `Số điện thoại {VALUE} không hợp lệ!`,
 				// message: (props) => `{props.value} is not a valid email!`,
 			},
 		},

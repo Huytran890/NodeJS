@@ -22,7 +22,7 @@ const orderSchema = new Schema(
 
 					return true;
 				},
-				message: `Shipped date: {VALUE} is invalid!`,
+				message: `Ngày giao {VALUE} không hợp lệ!`,
 			},
 		},
 
@@ -38,7 +38,7 @@ const orderSchema = new Schema(
 					}
 					return false;
 				},
-				message: `Payment type: {VALUE} is invalid!`,
+				message: `Phương thức thanh toán {VALUE} không hợp lệ!`,
 			},
 		},
 
@@ -54,9 +54,10 @@ const orderSchema = new Schema(
 					}
 					return false;
 				},
-				message: `Status: {VALUE} is invalid!`,
+				message: `Trạng thái {VALUE} không hợp lệ!`,
 			},
 		},
+
 		customerId: {
 			type: Schema.Types.ObjectId,
 			ref: 'users',

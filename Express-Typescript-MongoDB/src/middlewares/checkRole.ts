@@ -29,7 +29,7 @@ export const allowRoles = () => {
 				.json({ message: 'Tài khoản không có quyền thao tác!' }); // user is forbidden
 		} catch (error) {
 			console.log('««««« error »»»»»', error);
-			res.status(403).json({ message: 'Forbidden' }); // user is forbidden
+			res.status(403).json({ message: 'Bạn không có quyền!' }); // user is forbidden
 		}
 	};
 };

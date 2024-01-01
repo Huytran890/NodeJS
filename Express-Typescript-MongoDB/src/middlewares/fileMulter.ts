@@ -4,6 +4,9 @@ import { toSafeFileName } from '../helpers/MongoDbHelper';
 
 const UPLOAD_DIRECTORY = './public/uploads';
 
+
+
+
 // const upload = multer({
 // 	storage: multer.diskStorage({
 // 		contentType: multer.AUTO_CONTENT_TYPE,

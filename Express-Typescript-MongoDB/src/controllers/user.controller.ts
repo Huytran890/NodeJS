@@ -5,8 +5,12 @@ import mongoose from 'mongoose';
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
 	try {
+		const role: any = req.query.role;
 		const payload = await UserModel.aggregate()
-			.match({ isDeleted: false })
+			.match({ role: role.toUpperCase(), isDeleted: false })
+			.addFields({
+				fullName: { $concat: ['$firstName', ' ', '$lastName'] },
+			})
 			.project({
 				password: 0,
 				isDeleted: 0,
@@ -50,13 +54,13 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 		const payload = await newUser.save();
 
 		res.status(200).json({
-			message: 'Tạo mới thành công.',
+			message: 'Tạo mới người dùng thành công.',
 			payload,
 		});
 	} catch (error) {
 		console.log('<<== 🚀 error ==>>', error);
 		res.status(400).json({
-			message: 'Tạo mới không thành công!',
+			message: 'Tạo mới người dùng thất bại!',
 			error,
 		});
 	}
@@ -92,7 +96,7 @@ const search = async (req: Request, res: Response, next: NextFunction) => {
 	} catch (error) {
 		console.log('<<== 🚀 error ==>>', error);
 		res.status(400).json({
-			message: 'Tìm kiếm không thành công!',
+			message: 'Tìm kiếm thất bại!',
 			error,
 		});
 	}
@@ -124,7 +128,7 @@ const getDetail = async (req: Request, res: Response, next: NextFunction) => {
 		});
 	} catch (error) {
 		res.status(400).json({
-			message: 'Xem chi tiết không thành công!',
+			message: 'Xem chi tiết thất bại!',
 			error,
 		});
 	}
@@ -145,19 +149,19 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 		}
 
 		return res.status(200).json({
-			message: 'Cập nhập thành công.',
+			message: 'Cập nhập thông tin thành công.',
 			payload,
 		});
 	} catch (error) {
 		console.log('<<== 🚀 error ==>>', error);
 		res.status(400).json({
-			message: 'Cập nhập không thành công!',
+			message: 'Cập nhập thất bại!',
 			error,
 		});
 	}
 };
 
-async function deleteFunc(req: Request, res: Response, next: NextFunction) {
+const deleteFunc = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { id } = req.params;
 
@@ -175,14 +179,21 @@ async function deleteFunc(req: Request, res: Response, next: NextFunction) {
 
 		return res.status(200).json({
 			payload,
-			message: 'Xóa thành công.',
+			message: 'Xóa người dùng thành công.',
 		});
 	} catch (error) {
 		res.status(400).json({
-			message: 'Xóa không thành công!',
+			message: 'Xóa người dùng thất bại!',
 			error,
 		});
 	}
-}
+};
 
-export { getAll, create, search, getDetail, update, deleteFunc };
+export {
+	getAll,
+	create,
+	search,
+	getDetail,
+	update,
+	deleteFunc,
+};

@@ -12,7 +12,7 @@ export const getSchema = z.object({
 				message: "Invalid Category's ObjectID Format!",
 			}
 		),
-		sup: z.string().refine(
+		supplier: z.string().refine(
 			(value) => {
 				if (!value) return true;
 				return ObjectId.isValid(value);
@@ -50,7 +50,9 @@ export const getDetailSchema = z.object({
 export const updateStatusSchema = z.object({
 	body: z.object({
 		status: z
-			.string({ required_error: 'Trạng thái đơn hàng không được bỏ trống!' })
+			.string({
+				required_error: 'Trạng thái đơn hàng không được bỏ trống!',
+			})
 			.refine(
 				(value) =>
 					[
@@ -76,7 +78,8 @@ export const createSchema = z.object({
 
 			paymentType: z
 				.string({
-					required_error: 'Phương thức thanh toán Không được bỏ trống!',
+					required_error:
+						'Phương thức thanh toán Không được bỏ trống!',
 				})
 				.refine((value) => ['CASH', 'CREDIT_CARD'].includes(value), {
 					message: 'Phương thức thanh toán không hợp lệ!',
@@ -85,7 +88,8 @@ export const createSchema = z.object({
 			status: z
 				.string({ required_error: 'Trạng thái Không được bỏ trống!' })
 				.refine(
-					(value) => ['WAITING', 'COMPLETED', 'CANCELED'].includes(value),
+					(value) =>
+						['WAITING', 'COMPLETED', 'CANCELED'].includes(value),
 					{
 						message: 'Trạng thái không hợp lệ!',
 					}
@@ -124,7 +128,9 @@ export const createSchema = z.object({
 					),
 
 					quantity: z
-						.number({ required_error: 'Số lượng không được bỏ trống!' })
+						.number({
+							required_error: 'Số lượng không được bỏ trống!',
+						})
 						.min(0, 'Số lượng phải là số nguyên dương!'),
 
 					// price: yup.number().required().min(0),
@@ -192,7 +198,7 @@ export const updateShippingDateSchema = z.object({
 
 export const updateEmployeeSchema = z.object({
 	body: z.object({
-		employeeId: z.string().refine(
+		userId: z.string().refine(
 			(value) => {
 				if (!value) return true;
 				return ObjectId.isValid(value);

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { CartModel } from '../models/cart';
 import { ProductModel } from '../models/product';
+import { CartModel } from '../models/cart';
 
 export const getDetail = async (
 	req: Request,

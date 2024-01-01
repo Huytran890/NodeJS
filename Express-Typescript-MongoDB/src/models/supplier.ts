@@ -5,7 +5,7 @@ const supplierSchema = new Schema(
 		name: {
 			type: String,
 			require: true,
-			minLength: [5, 'Tên nhà cung cấp phải có tối thiểu 5 ký tự.'],
+			minLength: [2, 'Tên nhà cung cấp phải có tối thiểu 2 ký tự.'],
 			maxLength: [100, 'Tên nhà cung cấp không được vượt quá 100 ký tự.'],
 		},
 

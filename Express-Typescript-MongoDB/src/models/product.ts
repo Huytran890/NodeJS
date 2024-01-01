@@ -29,7 +29,7 @@ const productSchema = new Schema(
 		stock: { type: Number, min: [0, 'Tồn kho không thể âm.'], default: 0 },
 		description: {
 			type: String,
-			maxLength: [500, 'Mô tả không được vượt quá 500 ký tự.'],
+			maxLength: [500, 'Mô tả sản phẩm không được vượt quá 500 ký tự.'],
 		},
 		// Reference to Category
 		categoryId: {
@@ -42,6 +42,27 @@ const productSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'suppliers',
 			required: true,
+		},
+		// Reference to Size
+		sizeId: {
+			type: Schema.Types.ObjectId,
+			ref: 'sizes',
+			required: true,
+		},
+		// Reference to Color
+		colorId: {
+			type: Schema.Types.ObjectId,
+			ref: 'colors',
+			required: true,
+		},
+		promoteTitle: {
+			type: String,
+		},
+		productTag: {
+			type: String,
+		},
+		imageSale: {
+			type: String,
 		},
 		isDeleted: {
 			type: Boolean,
@@ -68,6 +89,19 @@ productSchema.virtual('category', {
 productSchema.virtual('supplier', {
 	ref: 'suppliers',
 	localField: 'supplierId',
+	foreignField: '_id',
+	justOne: true,
+});
+
+productSchema.virtual('size', {
+	ref: 'sizes',
+	localField: 'sizeId',
+	foreignField: '_id',
+	justOne: true,
+});
+productSchema.virtual('color', {
+	ref: 'colors',
+	localField: 'colorId',
 	foreignField: '_id',
 	justOne: true,
 });

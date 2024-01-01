@@ -1,6 +1,21 @@
 import { z, AnyZodObject, ZodError } from 'zod';
 import { ObjectId } from 'mongodb';
 import { Request, Response, NextFunction } from 'express';
+import multer from 'multer';
+
+const ALLOWED_FORMAT_IMAGES = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg', 'image/ico', 'image/webp', 'image/jfif'];
+
+const storage = multer.memoryStorage();
+export const upload = multer({
+	storage,
+	fileFilter: (req, file, cb) => {
+		if (ALLOWED_FORMAT_IMAGES.includes(file.mimetype)) {
+			cb(null, true);
+		} else {
+			cb(new Error('Not supported file type!'));
+		}
+	},
+});
 
 export const fuzzySearch = (text: string) => {
 	const regex = text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -78,14 +93,14 @@ export const validateRequest = (validator: AnyZodObject) => {
 			next();
 		} catch (error) {
 			// If error is instance of ZodError then return error to client to show it to user
-			console.log('vao');
-
 			if (error instanceof ZodError) {
 				return res.status(400).send({ msg: error.issues[0].message });
 			}
 
 			// If error is not from zod then return generic error message
-			return res.status(500).send('Error making request, contact support');
+			return res
+				.status(500)
+				.send('Error making request, contact support');
 		}
 	};
 };

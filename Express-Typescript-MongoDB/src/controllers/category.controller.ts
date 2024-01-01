@@ -7,11 +7,11 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 
 		return res.status(200).json({
 			payload,
-			message: 'Lấy thông tin thành công.',
+			message: 'Lấy thông tin danh mục thành công.',
 		});
 	} catch (error) {
 		console.log('<<== 🚀 error ==>>', error);
-		return res.status(400).json({ message: 'Không thành công!' });
+		return res.status(400).json({ message: 'Lấy thông tin danh mục thất bại!' });
 	}
 };
 
@@ -45,18 +45,18 @@ const getDetail = async (req: Request, res: Response, next: NextFunction) => {
 		console.log('<<== 🚀 error ==>>', error);
 		res.status(400).json({
 			error,
-			message: 'Lấy danh sách thất bại!',
+			message: 'Lấy danh mục thất bại!',
 		});
 	}
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const { name, description } = req.body;
+		const { name } = req.body;
 
 		const newCategory = new CategoryModel({
 			name,
-			description,
+			// description,
 		});
 
 		const payload = await newCategory.save();
@@ -69,7 +69,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 		console.log('<<== 🚀 error ==>>', error);
 		res.status(400).json({
 			error,
-			message: 'Tạo danh sách không thành công!',
+			message: 'Tạo danh sách thất bại!',
 		});
 	}
 };
@@ -77,7 +77,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const update = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { id } = req.params;
-		const { name, description } = req.body;
+		const { name } = req.body;
 
 		// const result = await Category.findByIdAndUpdate(id, {name, description}, { new: true })
 		// const result = await Category.findOneAndUpdate(
@@ -105,7 +105,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 
 		const payload2 = await CategoryModel.findByIdAndUpdate(
 			id,
-			{ name, description },
+			{ name },
 			{ new: true }
 		);
 
@@ -117,7 +117,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 		console.log('<<== 🚀 error ==>>', error);
 		res.status(400).json({
 			error,
-			message: 'Cập nhập không thành công!',
+			message: 'Cập nhập thất bại!',
 		});
 	}
 };
@@ -143,13 +143,13 @@ const deleteFunc = async (req: Request, res: Response, next: NextFunction) => {
 		await CategoryModel.updateOne({ _id: id }, { isDeleted: true });
 
 		return res.status(202).json({
-			message: 'Xóa sản phẩm thành công.',
+			message: 'Xóa danh mục thành công.',
 		});
 	} catch (error) {
 		console.log('<<== 🚀 error ==>>', error);
 		res.status(400).json({
 			error,
-			message: 'Xóa không thành công!',
+			message: 'Xóa danh mục thất bại!',
 		});
 	}
 };
